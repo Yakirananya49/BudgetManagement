@@ -1,8 +1,21 @@
 function Header() {
   return (
-    <header className="header">
-      <h1>📈 Budget Management System</h1>
-      <p>Manage your income and expenses easily</p>
+    <header className="top-header">
+      <div className="brand">
+        <div className="brand-icon">₪</div>
+
+        <div>
+          <h1>ניהול התקציב</h1>
+          <p>ניהול חכם של ההכנסות וההוצאות שלך</p>
+        </div>
+      </div>
+
+      <div className="header-date">
+        <span>היום</span>
+        <strong>
+          {new Date().toLocaleDateString("he-IL")}
+        </strong>
+      </div>
     </header>
   );
 }
