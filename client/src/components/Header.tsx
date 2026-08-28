@@ -1,20 +1,34 @@
 function Header() {
   return (
-    <header className="top-header">
-      <div className="brand">
-        <div className="brand-icon">₪</div>
+    <header className="header">
+      <div className="header-content">
 
-        <div>
-          <h1>ניהול התקציב</h1>
-          <p>ניהול חכם של ההכנסות וההוצאות שלך</p>
+        <div className="header-title">
+
+          <div className="header-icon">
+            ₪
+          </div>
+
+          <div>
+            <h1>ניהול התקציב</h1>
+
+            <p>
+              שליטה חכמה בהכנסות ובהוצאות שלך
+            </p>
+          </div>
+
         </div>
-      </div>
 
-      <div className="header-date">
-        <span>היום</span>
-        <strong>
-          {new Date().toLocaleDateString("he-IL")}
-        </strong>
+        <div className="header-date">
+
+          <span>היום</span>
+
+          <strong>
+            {new Date().toLocaleDateString("he-IL")}
+          </strong>
+
+        </div>
+
       </div>
     </header>
   );
