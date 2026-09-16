@@ -2,6 +2,7 @@ type TransactionCardProps = {
   title: string;
   amount: number;
   type: string;
+  category: string;
   onDelete: () => void;
 };
 
@@ -9,43 +10,42 @@ function TransactionCard({
   title,
   amount,
   type,
+  category,
   onDelete,
 }: TransactionCardProps) {
-  const isIncome = type === "Income";
+
+  const isIncome = type === "income";
 
   return (
     <div className="transaction-card">
 
-      <div className="transaction-icon">
-        {isIncome ? "↑" : "↓"}
-      </div>
-
       <div className="transaction-info">
-        <strong>{title}</strong>
 
-        <span>
-          {isIncome ? "הכנסה" : "הוצאה"}
-        </span>
+        <div className="transaction-icon">
+          {isIncome ? "📈" : "📉"}
+        </div>
+
+        <div>
+          <h3>{title}</h3>
+          <p>{category}</p>
+        </div>
+
       </div>
 
-      <div
-        className={
-          isIncome
-            ? "transaction-amount income"
-            : "transaction-amount expense"
-        }
-      >
-        {isIncome ? "+" : "-"}₪
-        {amount.toLocaleString()}
-      </div>
+      <div className="transaction-right">
 
-      <button
-        className="delete-button"
-        onClick={onDelete}
-        title="מחיקת תנועה"
-      >
-        ×
-      </button>
+        <strong className={isIncome ? "income" : "expense"}>
+          {isIncome ? "+" : "-"}₪{amount}
+        </strong>
+
+        <button
+          className="delete-button"
+          onClick={onDelete}
+        >
+          🗑️
+        </button>
+
+      </div>
 
     </div>
   );

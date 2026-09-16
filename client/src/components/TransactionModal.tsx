@@ -1,17 +1,19 @@
+type TransactionType = "income" | "expense";
+
 type TransactionModalProps = {
   isOpen: boolean;
   title: string;
   amount: string;
-  type: "Income" | "Expense";
+  type: TransactionType;
   category: string;
 
   setTitle: (value: string) => void;
   setAmount: (value: string) => void;
-  setType: (value: "Income" | "Expense") => void;
+  setType: (value: TransactionType) => void;
   setCategory: (value: string) => void;
 
-  onAdd: () => void;
   onClose: () => void;
+  onSubmit: () => void;
 };
 
 function TransactionModal({
@@ -24,103 +26,261 @@ function TransactionModal({
   setAmount,
   setType,
   setCategory,
-  onAdd,
   onClose,
+  onSubmit,
 }: TransactionModalProps) {
+
   if (!isOpen) {
     return null;
   }
 
   return (
-    <div className="modal-overlay" onClick={onClose}>
+    <div
+      className="modal-overlay"
+      onMouseDown={(event) => {
+        if (event.target === event.currentTarget) {
+          onClose();
+        }
+      }}
+    >
+
       <div
         className="transaction-modal"
         dir="rtl"
-        onClick={(event) => event.stopPropagation()}
       >
+
+        {/* =========================
+            HEADER
+        ========================= */}
+
         <div className="modal-header">
+
           <div>
-            <p className="modal-label">ניהול תקציב</p>
-            <h2>הוספת תנועה</h2>
+
+            <span className="modal-label">
+              תנועה חדשה
+            </span>
+
+            <h2>
+              הוספת תנועה
+            </h2>
+
+            <p>
+              הוסף הכנסה או הוצאה לחשבון שלך
+            </p>
+
           </div>
 
+
           <button
+            type="button"
             className="modal-close"
             onClick={onClose}
-            aria-label="סגירת חלונית"
           >
             ×
           </button>
+
         </div>
 
-        <div className="form-group">
-          <label>סוג</label>
 
-          <div className="transaction-type">
+        {/* =========================
+            TYPE
+        ========================= */}
+
+        <div className="modal-field">
+
+          <label>
+            סוג תנועה
+          </label>
+
+
+          <div className="transaction-types">
+
+            {/* EXPENSE */}
+
             <button
               type="button"
-              className={type === "Expense" ? "type-button expense-selected" : "type-button"}
-              onClick={() => setType("Expense")}
+              className={
+                type === "expense"
+                  ? "transaction-type active-expense"
+                  : "transaction-type"
+              }
+              onClick={() =>
+                setType("expense")
+              }
             >
-              הוצאה
+
+              <span className="type-icon">
+                ↘
+              </span>
+
+              <span>
+                <strong>
+                  הוצאה
+                </strong>
+
+                <small>
+                  כסף שיוצא
+                </small>
+              </span>
+
             </button>
+
+
+            {/* INCOME */}
 
             <button
               type="button"
-              className={type === "Income" ? "type-button income-selected" : "type-button"}
-              onClick={() => setType("Income")}
+              className={
+                type === "income"
+                  ? "transaction-type active-income"
+                  : "transaction-type"
+              }
+              onClick={() =>
+                setType("income")
+              }
             >
-              הכנסה
+
+              <span className="type-icon">
+                ↗
+              </span>
+
+              <span>
+                <strong>
+                  הכנסה
+                </strong>
+
+                <small>
+                  כסף שנכנס
+                </small>
+              </span>
+
             </button>
+
           </div>
+
         </div>
 
-        <div className="form-group">
-          <label>קטגוריה</label>
 
-          <select
-            value={category}
-            onChange={(event) => setCategory(event.target.value)}
-          >
-            <option value="Food">מזון</option>
-            <option value="Entertainment">בילויים</option>
-            <option value="Fuel">תחבורה</option>
-            <option value="Education">חינוך</option>
-            <option value="Other">אחר</option>
-          </select>
-        </div>
+        {/* =========================
+            TITLE
+        ========================= */}
 
-        <div className="form-group">
-          <label>תיאור</label>
+        <div className="modal-field">
+
+          <label>
+            תיאור התנועה
+          </label>
 
           <input
+            className="modal-input"
             type="text"
-            placeholder="למשל: קניות בסופר"
+            placeholder="לדוגמה: קניות בסופר"
             value={title}
-            onChange={(event) => setTitle(event.target.value)}
+            onChange={(event) =>
+              setTitle(event.target.value)
+            }
           />
+
         </div>
 
-        <div className="form-group">
-          <label>סכום</label>
 
-          <div className="amount-input">
-            <span>₪</span>
+        {/* =========================
+            AMOUNT
+        ========================= */}
+
+        <div className="modal-field">
+
+          <label>
+            סכום
+          </label>
+
+          <div className="modal-amount">
+
+            <span>
+              ₪
+            </span>
 
             <input
               type="number"
-              placeholder="0.00"
-              min="0"
+              placeholder="0"
               value={amount}
-              onChange={(event) => setAmount(event.target.value)}
+              onChange={(event) =>
+                setAmount(event.target.value)
+              }
             />
+
           </div>
+
         </div>
 
-        <button className="modal-submit" onClick={onAdd}>
-          הוסף תנועה
-        </button>
+
+        {/* =========================
+            CATEGORY
+        ========================= */}
+
+        <div className="modal-field">
+
+          <label>
+            קטגוריה
+          </label>
+
+          <select
+            className="modal-input"
+            value={category}
+            onChange={(event) =>
+              setCategory(event.target.value)
+            }
+          >
+
+            <option value="Food">
+              🍔 כלכלה
+            </option>
+
+            <option value="Entertainment">
+              🎮 פנאי
+            </option>
+
+            <option value="Fuel">
+              🚗 דלק
+            </option>
+
+            <option value="Other">
+              📦 אחר
+            </option>
+
+          </select>
+
+        </div>
+
+
+        {/* =========================
+            BUTTONS
+        ========================= */}
+
+        <div className="modal-buttons">
+
+          <button
+            type="button"
+            className="modal-cancel"
+            onClick={onClose}
+          >
+            ביטול
+          </button>
+
+
+          <button
+            type="button"
+            className="modal-save"
+            onClick={onSubmit}
+          >
+            ✓ הוספת תנועה
+          </button>
+
+        </div>
+
       </div>
+
     </div>
   );
 }
