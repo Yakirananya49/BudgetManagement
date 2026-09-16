@@ -1,4 +1,5 @@
 import { useState } from "react";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:5000";
 
 type User = {
   id: string;
@@ -51,9 +52,8 @@ function Auth({ onLogin }: AuthProps) {
 
     try {
       const endpoint = isRegister
-        ? "http://localhost:5000/api/auth/register"
-        : "http://localhost:5000/api/auth/login";
-
+        ? `${API_URL}/api/auth/register`
+        : `${API_URL}/api/auth/login`
       const body = isRegister
         ? {
             name: name.trim(),
